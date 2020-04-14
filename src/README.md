@@ -33,11 +33,14 @@
 	  * **encoderMotorRun**( port, speed )
 	  * **encoderMotorMove**( port, speed, distance, **def** onFinish )
 	  * **encoderMotorMoveTo**( port, speed, position, **def** onFinish )
+	  * **encoderMotorSetCurPosZero( port )
+	  * **encoderMotorPosition( port, **def** onResult )
+	  * **encoderMotorSpeed( port, **def** onResult )
 	* Stepper Motor
-	  * **stepperMotorSetting**( port, microsteps, acceleration )
 	  * **stepperMotorRun**( port, speed )
 	  * **stepperMotorMove**( port, speed, distance, **def** onFinish )
 	  * **stepperMotorMoveTo**( port, speed, position, **def** onFinish )
+	  * **stepperMotorSetCurPosZero( port )
 	  
  * Sensors
  	* Ultrasonic Sensor
@@ -69,7 +72,7 @@
  	* Joystick
  	  * **joystickRead** ( port, axis, **def** onResult )
  	* 3-Axis Accelerometer and Gyro Sensor
- 	  * **gyroRead** ( axis, **def** onResult )
+ 	  * **gyroRead** (port, axis, **def** onResult )
  	* Compass
  	  * **compassRead** ( **def** onResult )
  	

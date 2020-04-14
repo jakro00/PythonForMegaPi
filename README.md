@@ -13,6 +13,36 @@
  * On your Raspberry Pi, disable the login prompt from Desktop->Menu->Preferences->Raspberry Pi Configuration.
 
 ![image](https://raw.githubusercontent.com/Makeblock-official/PythonForMegaPi/master/images/serial.jpg)
+
+* If you are using raspberry 3 B+，since the Bluetooth function takes up the ttyAMA0 port, You have two ways to solve this problem.
+
+
+1. Disable the pi3 bluetooth and restore UART0/ttyAMA0 over GPIOs 14&15
+
+2. Switch pi3 blutooth function to use the mini-UART(ttyS0) and restore UART0/ttyAMA0 over GPIOs 14&15. 
+
+* Here, I disable the pi3 bluetooth as an example
+
+1. Search `pi3-disable-bt` in file `/boot/overlays/README`, it will show you, how to disable the bluetooth, if you want switch the bluetooth to mini-UART(ttyS0), you can search `pi3-miniuart-bt` 
+
+![image](https://raw.githubusercontent.com/Makeblock-official/PythonForMegaPi/master/images/pi3-disable-bt.jpg)
+
+2. Modify the file `/boot/config.txt`, At the end of the file, add the following content
+```
+#Enable uart
+enable_uart=1
+dtoverlay=pi3-disable-bt
+```
+
+![image](https://raw.githubusercontent.com/Makeblock-official/PythonForMegaPi/master/images/configTxt.jpg)
+
+3. reboot the raspberry pi
+
+4. open the Terminal and input the command `sudo systemctl disable hciuart`
+
+5. Now you can use ttyAMA0 as UART over GPIOs 14&15 
+
+
  * install python library for Makeblock
  ```
  sudo pip install megapi
@@ -54,8 +84,10 @@
 	  * **encoderMotorRun**( port, speed )
 	  * **encoderMotorMove**( port, speed, distance, **def** onFinish )
 	  * **encoderMotorMoveTo**( port, speed, position, **def** onFinish )
+	  * **encoderMotorSetCurPosZero**( slot )
+	  * **encoderMotorPosition**( slot, **def** onResult)
+	  * **encoderMotorSpeed**( slot, **def** onResult)
 	* Stepper Motor
-	  * **stepperMotorSetting**( port, microsteps, acceleration )
 	  * **stepperMotorRun**( port, speed )
 	  * **stepperMotorMove**( port, speed, distance, **def** onFinish )
 	  * **stepperMotorMoveTo**( port, speed, position, **def** onFinish )
@@ -90,7 +122,7 @@
  	* Joystick
  	  * **joystickRead** ( port, axis, **def** onResult )
  	* 3-Axis Accelerometer and Gyro Sensor
- 	  * **gyroRead** ( axis, **def** onResult )
+ 	  * **gyroRead** ( port，axis, **def** onResult )
  	* Compass
  	  * **compassRead** ( **def** onResult )
  	* Pressure Sensor for BMP085 and BMP180
